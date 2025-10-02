@@ -1,6 +1,17 @@
 # use Ubuntu as the base image
 FROM ubuntu:22.04
 
+# avoid prompts on build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# configure timezone and locales
+RUN apt update && apt install -y \
+    tzdata \
+    locales \
+    && ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
+    && dpkg-reconfigure --frontend noninteractive tzdata \
+    && locale-gen en_US.UTF-8
+
 # install dependencies
 RUN apt update && apt install -y \
     build-essential \
