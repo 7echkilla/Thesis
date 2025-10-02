@@ -1,12 +1,19 @@
-### install docker
+## Repository structure
+
+Thesis\
+│\
+├── 3DThesis\
+└── Paraview
+
+### Install docker
 - sudo apt install docker.io
 
-### enable docker service on session
+### Enable docker service on session
 - sudo systemctl start docker
 
 ### Build docker image: 
 - cd ~/Project/Thesis
-- docker build -t 3dthesis_image .
+- sudo docker build -t 3dthesis_image .
   - -t 3dthesis_image specifies the tag for your image (i.e., 3dthesis_image is the name of the image).
   - . tells Docker to use the current directory (where the Dockerfile is) as the build context.
 
@@ -20,9 +27,9 @@
   - mpirun --version: Shows the version of OpenMPI
 
 ### Stop & Remove the container:
-- docker ps -a   # List all containers (including stopped ones)
-- docker stop <container_id>
-- docker rm <container_id> 
+- sudo docker ps -a   # List all containers (including stopped ones)
+- sudo docker stop <container_id>
+- sudo docker rm <container_id> 
 
 ### Remove the image:
 - docker rmi 3dthesis_image
@@ -35,3 +42,6 @@
 
 ### Docker service status:
 - sudo systemctl status docker
+
+### Check for images:
+- sudo docker images
