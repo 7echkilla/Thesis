@@ -13,7 +13,7 @@ RUN apt update && apt install -y \
     && locale-gen en_US.UTF-8
 
 # install dependencies
-RUN apt update && apt install -y \
+RUN apt update && apt-get install -y \
     build-essential \
     python3 \
     python3-pip \
@@ -45,9 +45,14 @@ RUN git clone https://github.com/ORNL-MDF/3DThesis.git 3DThesis
 WORKDIR /Thesis/3DThesis
 
 # build 3DThesis
-RUN mkdir build && cd build && \
-    cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install .. && \
-    cmake --build build --target install -j$(nproc)
+# RUN mkdir build && cd build && \
+#     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install .. && \
+#     cmake --build build --target install -j$(nproc)
 
-# set entrypoint for running simulation
-ENTRYPOINT [ "./build/application/3dThesis" ]
+RUN mkdir -p /Thesis/3DThesis/build && \
+    cd /Thesis/3DThesis/build && \
+    cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install .. && \
+    cmake --build . --target install -j$(nproc)
+
+# et the entrypoint to open a bash terminal
+ENTRYPOINT ["/bin/bash"]

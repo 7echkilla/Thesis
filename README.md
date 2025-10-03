@@ -1,9 +1,7 @@
 ## Repository structure
 
 Thesis\
-│\
-├── 3DThesis\
-└── Paraview
+└── 3DThesis
 
 ### Install docker
 - sudo apt install docker.io
@@ -18,7 +16,7 @@ Thesis\
   - . tells Docker to use the current directory (where the Dockerfile is) as the build context.
 
 ### Run the container:
-- docker run -it --rm 3dthesis_image /bin/bash
+- docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri:/dev/dri --group-add video --privileged -e XDG_RUNTIME_DIR=/tmp/runtime-root 3dthesis_image
   - -it: Runs the container in interactive mode and allocates a terminal.
   - --rm: Removes the container once it's stopped.
 - Run a simulation: ./Thesis/3DThesis/build/application/3dThesis ParamInput.txt
@@ -45,3 +43,6 @@ Thesis\
 
 ### Check for images:
 - sudo docker images
+
+### Run simulation while in container:
+- /Thesis/3DThesis/examples/snapshot# /Thesis/3DThesis/build/./bin/3DThesis ./ParamInput.txt 
