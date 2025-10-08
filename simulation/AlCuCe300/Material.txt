@@ -1,0 +1,14 @@
+Constants
+{
+	T_0	300.0	# Initial temperature (K)
+	T_L	895.0	# Liquidus temperature (K)
+	k	100.0	# Thermal conductivity (W/m.K)
+	c	1000.0	# Specific heat (J/kg.K)
+	p	2700.0	# Density (kg/m3)
+}
+CET
+{
+	N0	3e12	# Nucleation density (m^-3)
+	n	3
+	a	1.25e6	# Critical undercooling multiplier
+}

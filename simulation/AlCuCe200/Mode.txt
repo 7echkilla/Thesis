@@ -1,0 +1,6 @@
+Solidification
+{
+	Tracking	Volume
+	Timestep	5e-5
+	OutputFrequency	200
+}

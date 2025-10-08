@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y \
     tzdata \
     locales \
+    software-properties-common -y \
     && ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && dpkg-reconfigure --frontend noninteractive tzdata \
     && locale-gen en_US.UTF-8
@@ -30,6 +31,8 @@ RUN apt update && apt-get install -y \
     mpi-default-bin \
     mpi-default-dev \
     libopenmpi-dev \
+    add-apt-repository universe \
+    apt install python3-venv -y \
     && rm -rf /var/lib/apt/lists/*
 
 # install mpi4py for parallel processing (optional)
@@ -44,15 +47,16 @@ RUN git clone https://github.com/ORNL-MDF/3DThesis.git 3DThesis
 # set working directory for building 3DThesis
 WORKDIR /Thesis/3DThesis
 
-# build 3DThesis
-# RUN mkdir build && cd build && \
-#     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install .. && \
-#     cmake --build build --target install -j$(nproc)
+# create virtual environment and install dependencies
+RUN python3 -m venv venv \
+    source venv/bin/activate \
+    pip install numpy==1.24.4 pandas matplotlib scipy
 
+# build 3dthesis binaries
 RUN mkdir -p /Thesis/3DThesis/build && \
     cd /Thesis/3DThesis/build && \
     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install .. && \
     cmake --build . --target install -j$(nproc)
 
-# et the entrypoint to open a bash terminal
+# set the entrypoint to open a bash terminal
 ENTRYPOINT ["/bin/bash"]

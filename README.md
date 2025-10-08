@@ -45,4 +45,6 @@ Thesis\
 - sudo docker images
 
 ### Run simulation while in container:
+- xhost +local:root -> paraview
 - /Thesis/3DThesis/examples/snapshot# /Thesis/3DThesis/build/./bin/3DThesis ./ParamInput.txt 
+- /Thesis/3DThesis/examples/AlCuCe100/Data# python3 ../../../visualise_grain_structure.py

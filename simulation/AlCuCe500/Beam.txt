@@ -1,0 +1,11 @@
+Shape
+{
+	Width_X		0.0001	# 100µm radius (200µm diameter)
+	Width_Y		0.0001
+	Depth_Z		0.0001
+}
+Intensity
+{
+	Power		200		# Watts
+	Efficiency	0.35	# Absorptivity for LPBF
+}
