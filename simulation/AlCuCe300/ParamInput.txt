@@ -1,6 +1,6 @@
 Simulation
 {
-	Name		AlCuCe100
+	Name		AlCuCe300
 	Mode		Mode.txt
 	Material	Material.txt
 	Beam		Beam.txt

@@ -1,11 +1,12 @@
 import os
+import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 from scipy.interpolate import griddata
 
-def plot_graph(dataframe, x_slice=0.0005, tolerance=1e-9, parameter='G', log_scale=False, colour_bands=20, scan_speed=0.0005):
+def plot_graph(dataframe, x_slice=0.0005, tolerance=1e-9, parameter='G', log_scale=False, colour_bands=30, scan_speed=0.0005):
     """
     Plot a parameter (including derived ones) on the Y-Z plane at a given X slice
     
@@ -21,7 +22,7 @@ def plot_graph(dataframe, x_slice=0.0005, tolerance=1e-9, parameter='G', log_sca
     # filter data
     dataframe_slice = dataframe[abs(dataframe['x'] - x_slice) < tolerance].copy()
     if dataframe_slice.empty:
-        print(f"No data found near x = {x_slice}")
+        print(f"[FAIL] No data found near x = {x_slice}")
         return
     
      # handle derived parameters
@@ -93,16 +94,29 @@ def main():
     
     x_slice = 0.0005    # (0-0.001) in meters
 
+    # dict to store G*V values for all scan speeds
+    gxv_data = {scan_speed: [] for scan_speed in scan_speeds}
+
     for parameter in parameters:
         for scan_speed in scan_speeds:
             csv_path = os.path.join(os.getcwd(), f"simulation/AlCuCe{scan_speed}/Data/AlCuCe{scan_speed}.Solidification.Final.csv")
             if not os.path.exists(csv_path):
-                raise FileNotFoundError(f"File not found: {csv_path}")
+                raise FileNotFoundError(f"[FAIL] File not found: {csv_path}")
 
             dataframe = pd.read_csv(csv_path)
 
+            if parameter == "GxV":
+                dataframe['GxV'] = dataframe['G'] * dataframe['V']
+                gxv_data[scan_speed].extend(dataframe['GxV'].dropna().values)
+
+            # plot graphs using function
             plot_graph(dataframe=dataframe, x_slice=x_slice, parameter=parameter, scan_speed=scan_speed)
 
+    pickle_file = "gxv_data.pkl"
+    with open(pickle_file, 'wb') as file:
+        pickle.dump(gxv_data, file)
+
+    print(f"[INFO] Saved GxV data to {pickle_file}")
 
 if __name__ == "__main__":
     try:
