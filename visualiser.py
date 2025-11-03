@@ -78,11 +78,14 @@ def plot_graph(dataframe, x_slice=0.0005, tolerance=1e-9, parameter='G', log_sca
     plt.tick_params(axis='both', which='major', labelsize=font_size)
     cbar.ax.tick_params(labelsize=font_size)
 
+    if parameter == 'G/V':
+        parameter = 'GdV'
+        
     # save output
     output_dir = os.path.join(os.getcwd(), "images", parameter)
     os.makedirs(output_dir, exist_ok=True)
 
-    filename = f"speed{scan_speed}_x{str(x_slice).replace('.', 'p')}.png"
+    filename = f"{parameter}_{scan_speed}_{str(x_slice).replace('.', 'p')}.png"
     output_path = os.path.join(output_dir, filename)
 
     plt.savefig(output_path, dpi=300)
