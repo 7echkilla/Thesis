@@ -1,10 +1,10 @@
 Constants
 {
 	T_0	300.0	# Initial temperature (K)
-	T_L	895.0	# Liquidus temperature (K)
+	T_L	885.0	# Liquidus temperature (K)
 	k	100.0	# Thermal conductivity (W/m.K)
-	c	1000.0	# Specific heat (J/kg.K)
-	p	2700.0	# Density (kg/m3)
+	c	1084.0	# Specific heat (J/kg.K)
+	p	2360.0	# Density (kg/m3)
 }
 CET
 {
